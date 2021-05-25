@@ -1,0 +1,34 @@
+A simple C++ console debug logger utility macro
+ 
+This is a simple macro which implements a debug logger which can be used with stream output.
+It supports a time stamp (default) but it can be omitted if so needed.
+
+The logging can be used in streams with the stream '<<' operator
+ 
+Usage with the time stamp:
+    LOG_INFO() << "You failed " << 20 << "Times!"
+    LOG_WARN() << "You failed " << 20 << "Times!"
+    LOG_ERROR() << "You failed " << 20 << "Times!"
+
+Usage without the time stamp:
+    LOG_INFO() << "You failed " << 20 << "Times!"
+    LOG_WARN() << "You failed " << 20 << "Times!"
+    LOG_ERROR() << "You failed " << 20 << "Times!"
+
+Example output:
+
+    INFO: No time here
+    [2021-05-25 16:33:29] INFO: Starting
+    [2021-05-25 16:33:29] INFO: Created Worker number: 0
+    [2021-05-25 16:33:29] INFO: Created Worker number: 1
+    [2021-05-25 16:33:29] INFO: Worker: 0 @0
+    [2021-05-25 16:33:29] INFO: Worker: 1 @0
+
+Modify the macro if you desire a different output format.
+
+ Author: Erno Pakarinen
+ Email: codesmith.fi@gmail.com
+ Date: 25th of May 2021
+
+ MIT License
+
