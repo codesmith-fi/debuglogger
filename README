@@ -11,9 +11,13 @@ Usage with the time stamp:
     LOG_ERROR() << "You failed " << 20 << "Times!"
 
 Usage without the time stamp:
-    LOG_INFO() << "You failed " << 20 << "Times!"
-    LOG_WARN() << "You failed " << 20 << "Times!"
-    LOG_ERROR() << "You failed " << 20 << "Times!"
+    LOG_INFO_NT() << "You failed " << 20 << "Times!"
+    LOG_WARN_NT() << "You failed " << 20 << "Times!"
+    LOG_ERROR_NT() << "You failed " << 20 << "Times!"
+
+Default macro with ERROR severity:
+    LOG() << "You failed"
+    LOG_NT() << "You failed"
 
 Example output:
 
