@@ -45,12 +45,23 @@ namespace codesmith
 			ERROR = 2
 		};
 
+		/**
+		 * DebugLogger class definition
+		 * Class has stream output operation with operator <<
+		 * Constructor creates the initial output with (or without) a time stamp
+		 * and the desired warning level (severity).
+		 * 
+		 * Default warning level is ERROR
+		 * 
+		 * When class instance is destructed
+		 */
 		class DebugLogger
 		{
 		private: // constants
 			static constexpr const char* KTextLevelInfo = "INFO";
 			static constexpr const char* KTextLevelWarn = "WARN";
 			static constexpr const char* KTextLevelError = "ERROR";
+
 		public:
 			DebugLogger(DebugLogLevel severity = DebugLogLevel::ERROR, bool showtime = true) 
 				: m_buffer(), m_stm{}
@@ -80,7 +91,7 @@ namespace codesmith
 				m_buffer << ": ";
 			}
 
-			// Destructor, causes the debug info to be outputted
+			// Destructor, causes the debug info to be outputted with new line
 			virtual ~DebugLogger() {
 				std::cerr << m_buffer.str() << std::endl;
 			}
@@ -95,7 +106,8 @@ namespace codesmith
 			}
 		private:
 			void make_time() {
-				std::time_t t_now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+				std::time_t t_now = std::chrono::system_clock::to_time_t(
+					std::chrono::system_clock::now());
 				localtime_s(&m_stm, &t_now);
 			}
 
@@ -111,6 +123,12 @@ using namespace codesmith::Debug;
 /**
  * Helper macros/defines for using the DebugLogger
  */
+
+// Default logger, severity level is ERROR, with a time stamp
+#define LOG() DebugLogger()
+
+// Default logger, severity level is ERROR, without a time stamp
+#define LOG_NT() DebugLogger()
 
 // These variants show system time
 #define LOG_INFO() DebugLogger(DebugLogLevel::INFO)
