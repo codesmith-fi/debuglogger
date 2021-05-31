@@ -21,8 +21,8 @@
   * MIT License
   * Free to use, modify, copy, what ever. <3
   */
-#ifndef DEBUGLOGGER_DEFINED_H
-#define DEBUGLOGGER_DEFINED_H
+#ifndef __DEBUGLOGGER_DEFINED_H__
+#define __DEBUGLOGGER_DEFINED_H__
 
 #include <iostream>
 #include <iomanip>
@@ -32,7 +32,7 @@
 
 namespace codesmith
 {
-	namespace Debug
+	namespace debug
 	{
 		/**
 		 * Defines the supported warning levels for the macro.
@@ -40,9 +40,9 @@ namespace codesmith
 		 */
 		enum class DebugLogLevel : int
 		{
-			INFO = 0,
-			WARN = 1,
-			ERROR = 2
+			EINFO = 0,
+			EWARN = 1,
+			EERROR = 2
 		};
 
 		/**
@@ -63,7 +63,7 @@ namespace codesmith
 			static constexpr const char* KTextLevelError = "ERROR";
 
 		public:
-			DebugLogger(DebugLogLevel severity = DebugLogLevel::ERROR, bool showtime = true) 
+			DebugLogger(DebugLogLevel severity = DebugLogLevel::EERROR, bool showtime = true) 
 				: m_buffer(), m_stm{}
 			{				
 				if (showtime) {
@@ -72,12 +72,12 @@ namespace codesmith
 				}
 
 				switch(severity) {
-					case DebugLogLevel::WARN:
+					case DebugLogLevel::EWARN:
 					{
 						m_buffer << KTextLevelWarn;
 						break;
 					}
-				case DebugLogLevel::ERROR:
+				case DebugLogLevel::EERROR:
 					{
 						m_buffer << KTextLevelError;
 						break;
@@ -93,7 +93,7 @@ namespace codesmith
 
 			// Destructor, causes the debug info to be outputted with new line
 			virtual ~DebugLogger() {
-				std::cerr << m_buffer.str() << std::endl;
+				std::cerr << m_buffer.str() << std::endl << std::flush;
 			}
 
 			/**
@@ -115,10 +115,10 @@ namespace codesmith
 			std::ostringstream m_buffer;
 			struct std::tm m_stm;
 		};
-	}
-}
+	} // debug
+} // codesmith
 
-using namespace codesmith::Debug;
+using namespace codesmith::debug;
 
 /**
  * Helper macros/defines for using the DebugLogger
@@ -131,14 +131,13 @@ using namespace codesmith::Debug;
 #define LOG_NT() DebugLogger()
 
 // These variants show system time
-#define LOG_INFO() DebugLogger(DebugLogLevel::INFO)
-#define LOG_WARN() DebugLogger(DebugLogLevel::WARN)
-#define LOG_ERROR() DebugLogger(DebugLogLevel::ERROR)
+#define LOG_INFO() DebugLogger(DebugLogLevel::EINFO)
+#define LOG_WARN() DebugLogger(DebugLogLevel::EWARN)
+#define LOG_ERROR() DebugLogger(DebugLogLevel::EERROR)
 
 // These variants omit the system time and only show the warning level
-#define LOG_INFO_NT() DebugLogger(DebugLogLevel::INFO, false)
-#define LOG_WARN_NT() DebugLogger(DebugLogLevel::WARN, false)
-#define LOG_ERROR_NT() DebugLogger(DebugLogLevel::ERROR, false)
+#define LOG_INFO_NT() DebugLogger(DebugLogLevel::EINFO, false)
+#define LOG_WARN_NT() DebugLogger(DebugLogLevel::EWARN, false)
+#define LOG_ERROR_NT() DebugLogger(DebugLogLevel::EERROR, false)
 
-
-#endif // DEBUGLOGGER_DEFINED_H
+#endif // __DEBUGLOGGER_DEFINED_H__
